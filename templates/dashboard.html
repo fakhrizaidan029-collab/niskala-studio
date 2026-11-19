@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portal Klien Korporat — NISKALA STUDIO</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Latar Belakang Bintang & Atmosfer -->
+    <div class="stars-bg"></div>
+    <div class="planet-glow"></div>
+
+    <!-- Navigasi Atas -->
+    <nav class="navbar">
+        <div class="nav-brand">NISKALA <span style="font-size: 0.7rem; color: #00f5d4;">[PORTAL KLIEN]</span></div>
+        <div class="nav-links">
+            <a href="{{ url_for('index') }}">Beranda</a>
+            <a href="{{ url_for('profile') }}">Profil & Struktur</a>
+            <span class="user-badge">Halo, {{ user }}</span>
+            <a href="{{ url_for('logout') }}" class="btn-outline">Keluar</a>
+        </div>
+    </nav>
+
+    <!-- Flash Message -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <div class="flash-container">
+                {% for category, message in messages %}
+                    <div class="flash {{ category }}">{{ message }}</div>
+                {% endfor %}
+            </div>
+        {% endif %}
+    {% endwith %}
+
+    <!-- KONTEN UTAMA DASHBOARD -->
+    <main class="container" style="padding-top: 130px; padding-bottom: 80px; position: relative; z-index: 2;">
+        <div class="accent-line"></div>
+        <h2>PUSAT KENDALI KLIEN KORPORAT</h2>
+        <p style="margin-bottom: 30px; opacity: 0.85;">
+            Pantau progres pengembangan sistem Anda secara langsung dan akses blueprint arsitektur eksklusif dari Niskala Studio.
+        </p>
+
+        <!-- Baris Statistik Singkat Klien -->
+        <div class="auth-card" style="margin-bottom: 30px;">
+            <div class="meta-grid">
+                <div>
+                    <span class="meta-label">STATUS AKUN</span>
+                    <p class="meta-value" style="color: #00f5d4;">Terverifikasi</p>
+                </div>
+                <div>
+                    <span class="meta-label">TINGKAT LAYANAN</span>
+                    <p class="meta-value">Enterprise Tier</p>
+                </div>
+                <div>
+                    <span class="meta-label">ENKRIPSI DATA</span>
+                    <p class="meta-value" style="color: #00bbf9;">AES-256 Active</p>
+                </div>
+                <div>
+                    <span class="meta-label">DEDICATED SUPPORT</span>
+                    <p class="meta-value" style="color: #00f5d4;">24/7 Priority</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="overview-grid">
+            <!-- Kolom Kiri: Live Tracking Proyek & Studi Kasus Lengkap -->
+            <div>
+                <!-- PEMANTAUAN PROGRES PROYEK -->
+                <div class="auth-card" style="margin-bottom: 30px;">
+                    <div class="accent-line" style="background: linear-gradient(90deg, #00f5d4, #00bbf9);"></div>
+                    <span class="meta-label">LIVE TRACKING & MONITORING</span>
+                    <h3 style="margin: 8px 0 16px;">Status Proyek Anda</h3>
+
+                    {% if my_projects %}
+                        {% for proj in my_projects %}
+                        <div style="background: rgba(10, 12, 26, 0.7); border: 1px solid rgba(255, 255, 255, 0.12); border-radius: 12px; padding: 18px; margin-bottom: 15px;">
+                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                                <strong style="color: #00f5d4; font-size: 1rem;">{{ proj[1] }}</strong>
+                                <span style="font-size: 0.75rem; padding: 4px 12px; border-radius: 12px; background: rgba(0, 245, 212, 0.15); color: #00f5d4; font-weight: 700;">{{ proj[3] }}</span>
+                            </div>
+                            <p style="font-size: 0.85rem; opacity: 0.85; margin-bottom: 12px; line-height: 1.4;">{{ proj[2] }}</p>
+                            
+                            <!-- Progress Bar -->
+                            <div style="display: flex; justify-content: space-between; font-size: 0.75rem; margin-bottom: 6px;">
+                                <span style="opacity: 0.8;">Progres Pengerjaan Tim</span>
+                                <span style="color: #00f5d4; font-weight: 700;">{{ proj[4] }}%</span>
+                            </div>
+                            <div style="width: 100%; height: 8px; background: rgba(255, 255, 255, 0.1); border-radius: 4px; overflow: hidden;">
+                                <div style="width: {{ proj[4] }}%; height: 100%; background: linear-gradient(90deg, #00f5d4, #00bbf9); transition: width 0.4s ease;"></div>
+                            </div>
+                            <span style="display: block; font-size: 0.7rem; opacity: 0.5; margin-top: 8px;">Diajukan pada: {{ proj[5] }}</span>
+                        </div>
+                        {% endfor %}
+                    {% else %}
+                        <div style="text-align: center; padding: 25px 10px; background: rgba(10, 12, 26, 0.4); border-radius: 12px; border: 1px dashed rgba(255,255,255,0.15);">
+                            <p style="font-size: 0.85rem; opacity: 0.7; margin-bottom: 8px;">Belum ada brief proyek aktif yang terdaftar.</p>
+                            <span style="font-size: 0.75rem; color: #00f5d4;">Gunakan formulir di samping untuk mengajukan proposal baru.</span>
+                        </div>
+                    {% endif %}
+                </div>
+
+                <!-- Arsip Studi Kasus & Blueprint Perusahaan -->
+                <div class="auth-card" style="margin-bottom: 30px;">
+                    <div class="accent-line"></div>
+                    <span class="meta-label">ARSIP & BLUEPRINT EKSLUSIF</span>
+                    <h3 style="margin: 10px 0;">Portofolio Korporat Niskala</h3>
+                    <p style="opacity: 0.8; font-size: 0.9rem; margin-bottom: 20px;">
+                        Referensi arsitektur tingkat lanjut dan metrik performa sistem yang telah kami deploy untuk klien global:
+                    </p>
+
+                    {% for item in case_studies %}
+                    <div style="padding: 16px 0; border-bottom: 1px solid rgba(255, 255, 255, 0.1);">
+                        <span class="meta-label" style="color: #00f5d4;">{{ item.category }}</span>
+                        <h4 style="margin: 6px 0; font-size: 1.05rem;">{{ item.title }}</h4>
+                        <p style="opacity: 0.75; font-size: 0.85rem; line-height: 1.4;">Dampak & Performa: <strong>{{ item.metric }}</strong></p>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <!-- Kolom Kanan: Form Kirim Brief Proyek Baru (Lengkap) -->
+            <div>
+                <div class="auth-card" style="position: sticky; top: 100px;">
+                    <div class="accent-line" style="background: linear-gradient(90deg, #00f5d4, #00bbf9);"></div>
+                    <h3>AJUKAN BRIEF PROYEK BARU</h3>
+                    <p style="font-size: 0.85rem; opacity: 0.8; margin-bottom: 20px; line-height: 1.5;">
+                        Kirimkan spesifikasi, ide arsitektur, atau kebutuhan pengembangan sistem Anda. Data akan langsung terenkripsi dan masuk ke ruang kontrol admin.
+                    </p>
+
+                    <form method="POST" action="{{ url_for('request_project') }}">
+                        <div class="form-group" style="margin-bottom: 18px;">
+                            <label for="service" style="display: block; margin-bottom: 6px; font-size: 0.85rem; font-weight: 600; color: #00f5d4;">Pilih Divisi Layanan</label>
+                            <select id="service" name="service" required style="width: 100%; padding: 12px; background: rgba(10, 12, 26, 0.9); border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 8px; color: #fff; font-family: 'Montserrat', sans-serif; font-size: 0.9rem;">
+                                <option value="Web & Enterprise Software">Web & Enterprise Software</option>
+                                <option value="Cloud Architecture & DevOps">Cloud Architecture & DevOps</option>
+                                <option value="Futuristic UI/UX Design">Futuristic UI/UX Design</option>
+                                <option value="AI & Data Integration">AI & Data Integration</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group" style="margin-bottom: 22px;">
+                            <label for="brief" style="display: block; margin-bottom: 6px; font-size: 0.85rem; font-weight: 600; color: #00f5d4;">Ringkasan Kebutuhan & Spesifikasi (Brief)</label>
+                            <textarea id="brief" name="brief" rows="5" placeholder="Jelaskan detail target, skala pengguna, atau stack teknologi yang Anda inginkan..." required style="width: 100%; padding: 12px; background: rgba(10, 12, 26, 0.9); border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 8px; color: #fff; font-family: 'Montserrat', sans-serif; font-size: 0.9rem; line-height: 1.5;"></textarea>
+                        </div>
+
+                        <button type="submit" class="btn-mint full-width" style="width: 100%; padding: 14px; font-weight: 700; letter-spacing: 1px;">KIRIM BRIEF KE TIM ADMIN</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer-section">
+        <p class="copyright">&copy; 2026 Niskala Digital Studio. Portal Klien Terenkripsi & Aman.</p>
+    </footer>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Masuk Portal — AETHERIA STUDIO</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body class="auth-body">
+    <div class="stars-bg"></div>
+    <div class="planet-glow"></div>
+
+    <div class="auth-container">
+        <a href="{{ url_for('index') }}" class="back-link">&larr; Kembali ke Beranda</a>
+        
+        <div class="auth-card">
+            <div class="accent-line"></div>
+            <h2>PORTAL KLIEN</h2>
+            <p class="auth-sub">Masuk untuk memantau progres proyek dan portofolio lengkap.</p>
+
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    {% for category, message in messages %}
+                        <div class="flash {{ category }}">{{ message }}</div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+
+            <form method="POST" action="{{ url_for('login') }}">
+                <div class="form-group">
+                    <label for="email">Email Bisnis</label>
+                    <input type="email" id="email" name="email" placeholder="nama@perusahaan.com" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="password">Kata Sandi</label>
+                    <input type="password" id="password" name="password" placeholder="Masukkan kata sandi" required>
+                </div>
+
+                <button type="submit" class="btn-mint full-width">MASUK KE PORTAL</button>
+            </form>
+
+            <p class="auth-switch">Belum terdaftar? <a href="{{ url_for('register') }}">Daftar akun klien</a></p>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>

@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Control Center — NISKALA STUDIO</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        .admin-header {
+            padding: 130px 5% 30px;
+            position: relative;
+            z-index: 2;
+        }
+        .admin-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            background: rgba(18, 22, 43, 0.75);
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .admin-table th, .admin-table td {
+            padding: 15px 20px;
+            text-align: left;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            color: #fff;
+            font-size: 0.9rem;
+        }
+        .admin-table th {
+            background: rgba(0, 245, 212, 0.1);
+            color: #00f5d4;
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
+        .admin-table tr:last-child td {
+            border-bottom: none;
+        }
+        .badge-admin {
+            background: rgba(255, 94, 98, 0.2);
+            color: #ff5e62;
+            border: 1px solid rgba(255, 94, 98, 0.4);
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 700;
+        }
+        .badge-client {
+            background: rgba(0, 245, 212, 0.15);
+            color: #00f5d4;
+            border: 1px solid rgba(0, 245, 212, 0.4);
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 700;
+        }
+
+        .btn-delete {
+            background: rgba(255, 94, 98, 0.15);
+            color: #ff5e62;
+            border: 1px solid rgba(255, 94, 98, 0.4);
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-family: 'Montserrat', sans-serif;
+        }
+        .btn-delete:hover {
+            background: #ff5e62;
+            color: #fff;
+        }
+    </style>
+</head>
+<body>
+    <div class="stars-bg"></div>
+    <div class="planet-glow"></div>
+
+    <!-- Navigasi Atas Admin -->
+    <nav class="navbar">
+        <div class="nav-brand">NISKALA <span style="font-size: 0.7rem; color: #ff5e62;">[ADMIN]</span></div>
+        <div class="nav-links">
+            <a href="{{ url_for('index') }}">Beranda</a>
+            <span class="user-badge">Admin: {{ user }}</span>
+            <a href="{{ url_for('logout') }}" class="btn-outline">Keluar</a>
+        </div>
+    </nav>
+
+    <!-- Flash Message -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <div class="flash-container">
+                {% for category, message in messages %}
+                    <div class="flash {{ category }}">{{ message }}</div>
+                {% endfor %}
+            </div>
+        {% endif %}
+    {% endwith %}
+
+    <header class="container admin-header fade-in">
+        <div class="accent-line" style="background: linear-gradient(90deg, #ff5e62, #ff9966);"></div>
+        <h1>PUSAT KONTROL ADMINISTRATOR</h1>
+        <p class="hero-sub" style="text-align: left; margin-top: 8px;">
+            MONITORING AKUN KLIEN & MANAJEMEN SISTEM NISKALA STUDIO
+        </p>
+    </header>
+
+    <main class="container" style="padding-bottom: 80px; position: relative; z-index: 2;">
+        <!-- Ringkasan Statistik -->
+        <div class="auth-card" style="margin-bottom: 30px;">
+            <div class="meta-grid">
+                <div>
+                    <span class="meta-label">TOTAL AKUN</span>
+                    <p class="meta-value" style="color: #00f5d4;">{{ clients|length }} Pengguna</p>
+                </div>
+                <div>
+                    <span class="meta-label">STATUS SERVER</span>
+                    <p class="meta-value">Optimal (99.9%)</p>
+                </div>
+                <div>
+                    <span class="meta-label">KEAMANAN</span>
+                    <p class="meta-value">Terenkripsi AES</p>
+                </div>
+                <div>
+                    <span class="meta-label">MODE</span>
+                    <p class="meta-value" style="color: #ff5e62;">Root Access</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tabel Daftar Klien -->
+        <div class="auth-card">
+            <div class="accent-line"></div>
+            <h3>DAFTAR AKUN TERDAFTAR</h3>
+            <p style="font-size: 0.85rem; opacity: 0.8; margin-bottom: 15px;">
+                Daftar seluruh klien dan administrator yang terhubung ke database perusahaan.
+            </p>
+
+            <table class="admin-table">
+                <thead>
+                    <tr>
+                        <th>Klien & Waktu</th>
+                        <th>Layanan & Brief</th>
+                        <th>Status & Progres</th>
+                        <th>Aksi</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for req in requests_list %}
+                    <tr>
+                        <td>
+                            <strong>{{ req[1] }}</strong><br>
+                            <span style="font-size: 0.75rem; opacity: 0.7;">{{ req[2] }}</span><br>
+                            <span style="font-size: 0.7rem; color: #00f5d4;">{{ req[5] }}</span>
+                        </td>
+                        <td style="max-width: 280px;">
+                            <span class="badge-client" style="display: inline-block; margin-bottom: 6px;">{{ req[3] }}</span>
+                            <p style="font-size: 0.85rem; line-height: 1.4; opacity: 0.9;">{{ req[4] }}</p>
+                        </td>
+                        <td>
+                            <!-- Form Update Status & Progres -->
+                            <form method="POST" action="{{ url_for('update_project', req_id=req[0]) }}" style="display: flex; flex-direction: column; gap: 6px;">
+                                <select name="status" style="padding: 6px; border-radius: 6px; background: #0a0c1a; color: #fff; border: 1px solid rgba(255,255,255,0.2); font-size: 0.8rem;">
+                                    <option value="Menunggu Review" {% if req[6] == 'Menunggu Review' %}selected{% endif %}>Menunggu Review</option>
+                                    <option value="Sedang Dikerjakan" {% if req[6] == 'Sedang Dikerjakan' %}selected{% endif %}>Sedang Dikerjakan</option>
+                                    <option value="Tahap Testing" {% if req[6] == 'Tahap Testing' %}selected{% endif %}>Tahap Testing</option>
+                                    <option value="Selesai" {% if req[6] == 'Selesai' %}selected{% endif %}>Selesai</option>
+                                </select>
+                                <div style="display: flex; align-items: center; gap: 6px;">
+                                    <input type="number" name="progress" value="{{ req[7] }}" min="0" max="100" style="width: 65px; padding: 5px; border-radius: 6px; background: #0a0c1a; color: #00f5d4; border: 1px solid rgba(255,255,255,0.2); font-size: 0.8rem;">
+                                    <span style="font-size: 0.8rem;">%</span>
+                                    <button type="submit" style="padding: 5px 10px; background: #00f5d4; color: #0a0c1a; border: none; border-radius: 6px; font-weight: 700; font-size: 0.75rem; cursor: pointer;">Simpan</button>
+                                </div>
+                            </form>
+                        </td>
+                        <td>
+                            <form method="POST" action="{{ url_for('delete_request', req_id=req[0]) }}" onsubmit="return confirm('Yakin ingin menghapus brief ini?');">
+                                <button type="submit" class="btn-delete">Hapus</button>
+                            </form>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Tabel Pesan Kontak Publik -->
+        <div class="auth-card" style="margin-bottom: 30px;">
+            <div class="accent-line" style="background: linear-gradient(90deg, #00bbf9, #00f5d4);"></div>
+            <h3>PESAN KONTAK PUBLIK MASUK</h3>
+            <p style="font-size: 0.85rem; opacity: 0.8; margin-bottom: 15px;">
+                Pertanyaan atau pesan umum yang dikirimkan pengunjung melalui halaman Beranda.
+            </p>
+
+            {% if messages_list %}
+            <table class="admin-table">
+                <thead>
+                    <tr>
+                        <th>Pengirim & Waktu</th>
+                        <th>Subjek</th>
+                        <th>Isi Pesan</th>
+                        <th>Aksi</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for msg in messages_list %}
+                    <tr>
+                        <td>
+                            <strong>{{ msg[1] }}</strong><br>
+                            <span style="font-size: 0.75rem; opacity: 0.7;">{{ msg[2] }}</span><br>
+                            <span style="font-size: 0.7rem; color: #00f5d4;">{{ msg[5] }}</span>
+                        </td>
+                        <td><span class="badge-client">{{ msg[3] }}</span></td>
+                        <td style="font-size: 0.85rem; line-height: 1.4;">{{ msg[4] }}</td>
+                        <td>
+                            <form method="POST" action="{{ url_for('delete_message', msg_id=msg[0]) }}" onsubmit="return confirm('Hapus pesan ini?');">
+                                <button type="submit" class="btn-delete">Hapus</button>
+                            </form>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            {% else %}
+            <p style="text-align: center; opacity: 0.6; padding: 20px 0;">Belum ada pesan kontak publik yang masuk.</p>
+            {% endif %}
+        </div>
+    </main>
+
+    <!-- TABEL BRIEF PROYEK MASUK (BARU) -->
+        <div class="auth-card" style="margin-top: 30px;">
+            <div class="accent-line" style="background: linear-gradient(90deg, #00f5d4, #00bbf9);"></div>
+            <h3>DAFTAR BRIEF / PROPOSAL MASUK DARI KLIEN</h3>
+            <p style="font-size: 0.85rem; opacity: 0.8; margin-bottom: 15px;">
+                Permintaan konsultasi dan pengembangan proyek yang dikirimkan oleh klien melalui portal mereka.
+            </p>
+
+            {% if requests_list %}
+            <table class="admin-table">
+                <thead>
+                    <tr>
+                        <th>Waktu</th>
+                        <th>Klien</th>
+                        <th>Layanan</th>
+                        <th>Ringkasan Kebutuhan (Brief)</th>
+                        <th>Aksi</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for req in requests_list %}
+                    <tr>
+                        <td style="font-size: 0.8rem; opacity: 0.75;">{{ req[5] }}</td>
+                        <td>
+                            <strong>{{ req[1] }}</strong><br>
+                            <span style="font-size: 0.75rem; opacity: 0.7;">{{ req[2] }}</span>
+                        </td>
+                        <td><span class="badge-client">{{ req[3] }}</span></td>
+                        <td style="font-size: 0.9rem; line-height: 1.4;">{{ req[4] }}</td>
+                        <td>
+                            <form method="POST" action="{{ url_for('delete_request', req_id=req[0]) }}" onsubmit="return confirm('Yakin ingin menghapus brief ini?');">
+                                <button type="submit" class="btn-delete">Hapus</button>
+                            </form>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            {% else %}
+            <p style="text-align: center; opacity: 0.6; padding: 20px 0;">Belum ada brief proyek yang dikirimkan oleh klien.</p>
+            {% endif %}
+        </div>
+
+    <footer class="footer-section">
+        <p class="copyright">&copy; 2026 Niskala Digital Studio. Admin Secure Portal.</p>
+    </footer>
+</body>
+</html>

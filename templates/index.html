@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NISKALA CORP — Digital Innovation & Creative Studio</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Latar Belakang Bintang & Atmosfer -->
+    <div class="stars-bg"></div>
+
+    <!-- Navigasi Atas -->
+    <nav class="navbar">
+       <div class="nav-links">
+    <a href="{{ url_for('index') }}">Beranda</a>
+    <a href="{{ url_for('profile') }}">Profil & Struktur</a> <!-- Tambahan link ke profil -->
+    <a href="#overview">Tentang</a>
+    <a href="#projects">Portofolio</a>
+    <a href="#capabilities">Layanan</a>
+    <!-- ... sisa kode navigasi login/register ... -->
+</div>
+            {% if user %}
+                <span class="user-badge">Halo, {{ user }}</span>
+                <a href="{{ url_for('logout') }}" class="btn-outline">Keluar</a>
+            {% else %}
+                <a href="{{ url_for('login') }}">Masuk</a>
+                <a href="{{ url_for('register') }}" class="btn-mint-sm">Daftar Klien</a>
+            {% endif %}
+        </div>
+    </nav>
+
+    <!-- Flash Message -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <div class="flash-container">
+                {% for category, message in messages %}
+                    <div class="flash {{ category }}">{{ message }}</div>
+                {% endfor %}
+            </div>
+        {% endif %}
+    {% endwith %}
+
+    <!-- HERO SECTION (Referensi Bagian Atas) -->
+    <header class="hero">
+        <div class="planet-glow"></div>
+        <div class="hero-content fade-in">
+            <!-- Logo Geometris Icosahedron -->
+            <div class="geo-logo">
+                <svg viewBox="0 0 100 100" width="80" height="80">
+                    <polygon points="50,5 93,28 93,72 50,95 7,72 7,28" fill="none" stroke="#ff5e62" stroke-width="3"/>
+                    <polygon points="50,5 75,45 25,45" fill="none" stroke="#ff5e62" stroke-width="2.5"/>
+                    <polygon points="50,95 75,45 25,45" fill="none" stroke="#ff5e62" stroke-width="2.5"/>
+                    <line x1="7" y1="28" x2="25" y2="45" stroke="#ff5e62" stroke-width="2.5"/>
+                    <line x1="93" y1="28" x2="75" y2="45" stroke="#ff5e62" stroke-width="2.5"/>
+                    <line x1="7" y1="72" x2="50" y2="95" stroke="#ff5e62" stroke-width="2.5"/>
+                    <line x1="93" y1="72" x2="50" y2="95" stroke="#ff5e62" stroke-width="2.5"/>
+                    <line x1="7" y1="28" x2="7" y2="72" stroke="#ff5e62" stroke-width="2.5"/>
+                </svg>
+            </div>
+            <h1>NISKALA STUDIO</h1>
+            <p class="hero-sub">MEMBANGUN EKOSISTEM DIGITAL MASA DEPAN</p>
+            <a href="#projects" class="btn-mint">LIHAT SHOWREEL KAMI</a>
+        </div>
+        <!-- Siluet Pegunungan Geometris Bawah Hero -->
+        <div class="mountain-divider"></div>
+    </header>
+
+    <!-- BANNER CTA MELAYANG (Referensi "PURCHASE DIVI DEFENDERS") -->
+    <section class="floating-banner-wrapper">
+        <div class="gradient-banner slide-left">
+            <div class="banner-text">
+                <h2>MULAI PROYEK DIGITAL<br>PERUSAHAAN ANDA</h2>
+            </div>
+            <div class="banner-action">
+                <a href="{{ url_for('register') }}" class="btn-mint">KONSULTASI SEKARANG</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- COMPANY OVERVIEW (Referensi "GAME OVERVIEW") -->
+    <section id="overview" class="container section-overview">
+        <div class="overview-grid">
+            <div class="overview-desc">
+                <div class="accent-line"></div>
+                <h2>PROFIL PERUSAHAAN</h2>
+                <p>
+                    Niskala Studio adalah perusahaan teknologi kreatif yang berfokus pada pengembangan perangkat lunak enterprise, desain antarmuka futuristik, dan arsitektur cloud berskala besar. Kami menggabungkan presisi rekayasa dengan estetika visual tingkat tinggi untuk membantu bisnis Anda melampaui batas industri.
+                </p>
+            </div>
+            <div class="overview-meta-video">
+                <div class="meta-grid">
+                    <div>
+                        <span class="meta-label">SPESIALISASI</span>
+                        <p class="meta-value">Web, Cloud, UI/UX</p>
+                    </div>
+                    <div>
+                        <span class="meta-label">KANTOR PUSAT</span>
+                        <p class="meta-value">Cianjur, Jawa barat, Indonesia</p>
+                    </div>
+                    <div>
+                        <span class="meta-label">TAHUN BERDIRI</span>
+                        <p class="meta-value">2023 — Sekarang</p>
+                    </div>
+                    <div>
+                        <span class="meta-label">KLIEN GLOBAL</span>
+                        <p class="meta-value">5+ Perusahaan</p>
+                    </div>
+                </div>
+                <!-- Kartu Pratinjau Media -->
+                <div class="video-card" id="openModalBtn">
+                    <div class="planet-mini"></div>
+                    <div class="play-btn">▶</div>
+                    <span>Company Profile 2026</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- PORTOFOLIO & PENCAPAIAN (Referensi "48 LEVELS" dengan Kartu Bertumpuk) -->
+    <section id="projects" class="section-projects">
+        <div class="projects-wrapper">
+            <!-- Kartu Biru Cyan Kiri -->
+            <div class="cyan-feature-card">
+                <div class="accent-line white"></div>
+                <h2>5+ PROYEK SELESAI</h2>
+                <p>
+                    Dari platform fintech berkecepatan tinggi hingga sistem manajemen logistik berbasis AI. Setiap proyek dirancang khusus dengan performa maksimal, keamanan berlapis, dan pengalaman pengguna yang intuitif.
+                </p>
+                <a href="{{ url_for('login') }}" class="btn-mint">AKSES STUDI KASUS</a>
+            </div>
+
+            <!-- Kartu Visual Putih Bertumpuk Kanan -->
+            <div class="stacked-cards">
+                <div class="card-main">
+                    <div class="rocket-illustration">
+                        <div class="rocket-body">🚀</div>
+                        <div class="cloud-base"></div>
+                    </div>
+                    <h4>NovaPay FinTech</h4>
+                    <p>Sistem pembayaran lintas negara dengan latensi di bawah 50ms.</p>
+                </div>
+                <div class="card-sub">
+                    <div class="wireframe-icon">🛸</div>
+                    <h4>OrbitCloud ERP</h4>
+                </div>
+            </div>
+        </div>
+        <!-- Dekorasi Asteroid Melayang -->
+        <div class="asteroid-belt">
+            <span class="rock r1"></span>
+            <span class="rock r2"></span>
+            <span class="rock r3"></span>
+        </div>
+    </section>
+
+    <!-- KAPABILITAS & TEKNOLOGI (Referensi "BUILD & CAPTAIN YOUR OWN SHIP") -->
+    <section id="capabilities" class="container section-capabilities">
+        <div class="cap-grid">
+            <div class="cap-text">
+                <div class="accent-line"></div>
+                <h2>ARSITEKTUR &<br>KENDALI PENUH<br>TEKNOLOGI ANDA</h2>
+                <p>
+                    Kami membangun sistem modular yang memungkinkan tim Anda mengelola analitik, keamanan data, dan skalabilitas server dalam satu dasbor terpadu.
+                </p>
+                <a href="{{ url_for('register') }}" class="btn-mint">PELAJARI LEBIH LANJUT</a>
+            </div>
+            <div class="cap-hud">
+                <div class="hud-circle">
+                    <div class="hud-inner">99.9%<br><small>UPTIME</small></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER CTA BANNER (Referensi "JOIN THE CREW") -->
+    <footer class="footer-section">
+        <div class="gradient-banner footer-banner">
+            <div class="banner-text">
+                <h2>BERGABUNG BERSAMA KAMI.<br>WUJUDKAN INOVASI ANDA</h2>
+            </div>
+            <div class="banner-action">
+                <a href="{{ url_for('register') }}" class="btn-mint">DAFTAR KLIEN</a>
+            </div>
+        </div>
+        <p class="copyright">&copy; 2026 Niskala Digital Studio. Seluruh Hak Cipta Dilindungi.</p>
+
+<!-- BAGIAN KONTAK & MEDIA SOSIAL -->
+    <section id="contact" class="container" style="padding: 80px 0; position: relative; z-index: 2;">
+        <div class="accent-line"></div>
+        <h2>HUBUNGI & TERHUBUNG DENGAN KAMI</h2>
+        <p style="opacity: 0.85; margin-bottom: 40px;">
+            Punya pertanyaan seputar kolaborasi atau ingin berdiskusi langsung? Kirim pesan cepat atau ikuti kanal resmi Niskala Studio.
+        </p>
+
+        <div class="overview-grid">
+            <!-- Kolom Kiri: Info Kontak & Tautan Media Sosial -->
+            <div>
+                <div class="auth-card" style="margin-bottom: 24px;">
+                    <span class="meta-label">KANTOR & OPERASIONAL</span>
+                    <h3 style="margin: 8px 0 16px;">Niskala Digital HQ</h3>
+                    
+                    <div style="display: flex; flex-direction: column; gap: 14px; font-size: 0.9rem;">
+                        <div>
+                            <strong style="color: #00f5d4; display: block;">Email Bisnis:</strong>
+                            <span style="opacity: 0.85;">hello@niskalastudio.id</span>
+                        </div>
+                        <div>
+                            <strong style="color: #00f5d4; display: block;">WhatsApp / Hotline:</strong>
+                            <span style="opacity: 0.85;">+62 812-3456-7890</span>
+                        </div>
+                        <div>
+                            <strong style="color: #00f5d4; display: block;">Lokasi Studio:</strong>
+                            <span style="opacity: 0.85;">Jakarta Selatan, Indonesia (Remote Global)</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Kartu Tautan Media Sosial -->
+                <div class="auth-card">
+                    <span class="meta-label">KANAL DIGITAL</span>
+                    <h3 style="margin: 8px 0 16px;">Media Sosial Resmi</h3>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+                        <a href="https://instagram.com" target="_blank" style="padding: 12px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.12); border-radius: 10px; color: #fff; text-decoration: none; font-size: 0.85rem; font-weight: 600; text-align: center; transition: 0.3s;">
+                            📸 Instagram
+                        </a>
+                        <a href="https://linkedin.com/in/javk-ity" target="_blank" style="padding: 12px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.12); border-radius: 10px; color: #fff; text-decoration: none; font-size: 0.85rem; font-weight: 600; text-align: center; transition: 0.3s;">
+                            💼 LinkedIn
+                        </a>
+                        <a href="https://github.com/fakhrizaidan029-collab" target="_blank" style="padding: 12px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.12); border-radius: 10px; color: #fff; text-decoration: none; font-size: 0.85rem; font-weight: 600; text-align: center; transition: 0.3s;">
+                            💻 GitHub
+                        </a>
+                        <a href="https://wa.me/6285782210602" target="_blank" style="padding: 12px; background: rgba(0, 245, 212, 0.12); border: 1px solid rgba(0, 245, 212, 0.4); border-radius: 10px; color: #00f5d4; text-decoration: none; font-size: 0.85rem; font-weight: 700; text-align: center; transition: 0.3s;">
+                            💬 Chat WhatsApp
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Kolom Kanan: Formulir Pesan Cepat -->
+            <div>
+                <div class="auth-card">
+                    <div class="accent-line" style="background: linear-gradient(90deg, #00f5d4, #00bbf9);"></div>
+                    <h3>KIRIM PESAN CEPAT</h3>
+                    <p style="font-size: 0.85rem; opacity: 0.8; margin-bottom: 20px;">
+                        Tidak perlu login untuk menyapa atau menanyakan estimasi layanan kami.
+                    </p>
+
+                    <form method="POST" action="{{ url_for('send_contact') }}">
+                        <div style="margin-bottom: 15px;">
+                            <label style="display: block; margin-bottom: 6px; font-size: 0.85rem; font-weight: 600;">Nama Lengkap</label>
+                            <input type="text" name="sender_name" placeholder="Nama Anda / Perusahaan" required style="width: 100%; padding: 12px; background: rgba(10, 12, 26, 0.85); border: 1px solid rgba(255, 255, 255, 0.15); border-radius: 8px; color: #fff; font-family: 'Montserrat', sans-serif;">
+                        </div>
+
+                        <div style="margin-bottom: 15px;">
+                            <label style="display: block; margin-bottom: 6px; font-size: 0.85rem; font-weight: 600;">Alamat Email</label>
+                            <input type="email" name="sender_email" placeholder="email@domain.com" required style="width: 100%; padding: 12px; background: rgba(10, 12, 26, 0.85); border: 1px solid rgba(255, 255, 255, 0.15); border-radius: 8px; color: #fff; font-family: 'Montserrat', sans-serif;">
+                        </div>
+
+                        <div style="margin-bottom: 15px;">
+                            <label style="display: block; margin-bottom: 6px; font-size: 0.85rem; font-weight: 600;">Subjek Pesan</label>
+                            <input type="text" name="subject" placeholder="Contoh: Konsultasi Pembuatan Website" required style="width: 100%; padding: 12px; background: rgba(10, 12, 26, 0.85); border: 1px solid rgba(255, 255, 255, 0.15); border-radius: 8px; color: #fff; font-family: 'Montserrat', sans-serif;">
+                        </div>
+
+                        <div style="margin-bottom: 20px;">
+                            <label style="display: block; margin-bottom: 6px; font-size: 0.85rem; font-weight: 600;">Isi Pesan</label>
+                            <textarea name="message" rows="4" placeholder="Tuliskan pesan Anda di sini..." required style="width: 100%; padding: 12px; background: rgba(10, 12, 26, 0.85); border: 1px solid rgba(255, 255, 255, 0.15); border-radius: 8px; color: #fff; font-family: 'Montserrat', sans-serif;"></textarea>
+                        </div>
+
+                        <button type="submit" class="btn-mint full-width" style="width: 100%; padding: 14px; font-weight: 700;">KIRIM PESAN SEKARANG</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    </footer>
+
+    <!-- Modal Video Pratinjau -->
+    <div id="videoModal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <h3>Showreel Aetheria Studio 2026</h3>
+            <p>Menampilkan arsitektur cloud, desain sistem UI/UX, dan studi kasus transformasi digital klien korporat kami.</p>
+            <div class="mock-player">
+                <div class="pulse-ring"></div>
+                <p>[ Simulasi Pemutar Video Portofolio ]</p>
+            </div>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
